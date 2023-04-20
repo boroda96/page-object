@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/5037wk58i9v4bslc?svg=true)](https://ci.appveyor.com/project/boroda96/page-object)
+
 # Домашнее задание к занятию «2.4. BDD»
 
 В качестве результата пришлите ссылки на ваши GitHub-проекты в личном кабинете студента на сайте [netology.ru](https://netology.ru).
