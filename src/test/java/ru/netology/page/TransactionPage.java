@@ -11,7 +11,7 @@ public class TransactionPage {
     private SelenideElement sumAmount = $("[data-test-id=amount] input");
     private SelenideElement fromAccount = $("[data-test-id=from] input");
     private SelenideElement clickReplenish = $("[data-test-id=action-transfer]");
-    //перевод
+
     public void transferMoney(int amount, DataHelper.CardsInfo from) {
         sumAmount.setValue(valueOf(amount));
         fromAccount.setValue(String.valueOf(from));

@@ -6,7 +6,6 @@ public class DataHelper {
     private DataHelper() {
     }
 
-    //тут логин/пароль
     @Value
     public static class AuthInfo {
         private String login;
@@ -22,7 +21,6 @@ public class DataHelper {
         String code;
     }
 
-    //код из смс
     public static VerificationCode getVerificationCodeFor(AuthInfo authInfo) {
         return new VerificationCode("12345");
     }
