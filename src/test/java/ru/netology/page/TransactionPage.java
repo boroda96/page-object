@@ -20,10 +20,10 @@ public class TransactionPage {
     }
 
     public void errorLimit() {
-        $(".notification__content").should(Condition.exactText("Ошибка"));
+        $("[data-test-id=error-notification]").should(Condition.exactText("Ошибка"));
     }
 
     public void invalidCard() {
-        $(".notification__content").should(Condition.text("Ошибка! Произошла ошибка"));
+        $("[data-test-id=error-notification]").should(Condition.text("Ошибка! "));
     }
 }
