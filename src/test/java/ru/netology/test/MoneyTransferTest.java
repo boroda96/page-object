@@ -9,10 +9,8 @@ import ru.netology.page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.netology.data.DataHelper.getFirstCardNumber;
-import static ru.netology.data.DataHelper.getSecondCardNumber;
-import static ru.netology.page.CardBalance.pushFirstCardButton;
-import static ru.netology.page.CardBalance.pushSecondCardButton;
+import static ru.netology.data.DataHelper.getCard;
+
 
 public class MoneyTransferTest {
 
@@ -23,44 +21,43 @@ public class MoneyTransferTest {
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
         val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        val cardBalance = verificationPage.validVerify(verificationCode);
+        verificationPage.validVerify(verificationCode);
     }
 
     @Test
     public void shouldTransferFrom1To2() {
-        int amount = 6000;
         val cardBalance = new CardBalance();
-        val firstCardBalanceStart = cardBalance.getFirstCardBalance();
-        val secondCardBalanceStart = cardBalance.getSecondCardBalance();
-        val transactionPage = pushSecondCardButton();
-        transactionPage.transferMoney(amount, getFirstCardNumber());
-        val firstCardBalanceFinish = firstCardBalanceStart - amount;
-        val secondCardBalanceFinish = secondCardBalanceStart + amount;
-        assertEquals(firstCardBalanceFinish, cardBalance.getFirstCardBalance());
-        assertEquals(secondCardBalanceFinish, cardBalance.getSecondCardBalance());
+        val amount = 6000;
+        val balanceOne = cardBalance.getCardBalance(1);
+        val balanceTwo = cardBalance.getCardBalance(2);
+        val transactionPage = cardBalance.transferClick(2);
+        transactionPage.transferMoney(Integer.toString(amount), getCard(1).getCardNumber());
+        val firstCardBalanceFinish = cardBalance.getCardBalance(1);
+        val secondCardBalanceFinish = cardBalance.getCardBalance(2);
+        assertEquals(balanceOne - amount, firstCardBalanceFinish);
+        assertEquals(balanceTwo + amount, secondCardBalanceFinish);
     }
 
     @Test
     public void shouldTransferFrom2To1() {
         int amount = 2500;
         val cardBalance = new CardBalance();
-        val firstCardBalanceStart = cardBalance.getFirstCardBalance();
-        val secondCardBalanceStart = cardBalance.getSecondCardBalance();
-        val transactionPage = pushFirstCardButton();
-        transactionPage.transferMoney(amount, getSecondCardNumber());
-        val firstCardBalanceFinish = firstCardBalanceStart + amount;
-        val secondCardBalanceFinish = secondCardBalanceStart - amount;
-        assertEquals(firstCardBalanceFinish, cardBalance.getFirstCardBalance());
-        assertEquals(secondCardBalanceFinish, cardBalance.getSecondCardBalance());
+        val balanceOne = cardBalance.getCardBalance(1);
+        val balanceTwo = cardBalance.getCardBalance(2);
+        val transactionPage = cardBalance.transferClick(1);
+        transactionPage.transferMoney(Integer.toString(amount), getCard(2).getCardNumber());
+        val firstCardBalanceFinish = cardBalance.getCardBalance(1);
+        val secondCardBalanceFinish = cardBalance.getCardBalance(2);
+        assertEquals(balanceOne + amount, firstCardBalanceFinish);
+        assertEquals(balanceTwo - amount, secondCardBalanceFinish);
     }
 
     @Test
     public void shouldTransferFrom1To1() {
         int amount = 3333;
         val cardBalance = new CardBalance();
-        val firstCardBalanceStart = cardBalance.getFirstCardBalance();
-        val transactionPage = pushFirstCardButton();
-        transactionPage.transferMoney(amount, getFirstCardNumber());
+        val transactionPage = cardBalance.transferClick(1);
+        transactionPage.transferMoney(Integer.toString(amount), getCard(1).getCardNumber());
         transactionPage.invalidCard();
     }
 
@@ -68,22 +65,8 @@ public class MoneyTransferTest {
     public void shouldTransferFrom1To2OverLimit() {
         int amount = 15555;
         val cardBalance = new CardBalance();
-        val firstCardBalanceStart = cardBalance.getFirstCardBalance();
-        val secondCardBalanceStart = cardBalance.getSecondCardBalance();
-        val transactionPage = pushSecondCardButton();
-        transactionPage.transferMoney(amount, getFirstCardNumber());
+        val transactionPage = cardBalance.transferClick(2);
+        transactionPage.transferMoney(Integer.toString(amount), getCard(1).getCardNumber());
         transactionPage.errorLimit();
     }
-
-    @Test
-    public void shouldTransferFrom2To2() {
-        int amount = 4444;
-        val cardBalance = new CardBalance();
-        val firstCardBalance = cardBalance.getFirstCardBalance();
-        val secondCardBalanceStart = cardBalance.getSecondCardBalance();
-        val transactionPage = pushSecondCardButton();
-        transactionPage.transferMoney(amount, getSecondCardNumber());
-        transactionPage.invalidCard();
-    }
 }
-
