@@ -18,7 +18,6 @@ public class TransactionPage {
         sumAmount.setValue(amount);
         fromAccount.setValue(from);
         transferButton.click();
-        new CardBalance();
     }
 
     public void errorLimit() {

@@ -13,6 +13,7 @@ import static ru.netology.data.DataHelper.getCard;
 
 
 public class MoneyTransferTest {
+    private DataHelper.VerificationCode verificationCode = DataHelper.getVerificationCodeFor(DataHelper.getAuthInfo());
 
     @BeforeEach
     void setup() {
@@ -20,7 +21,6 @@ public class MoneyTransferTest {
         val loginPage = new LoginPage();
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
-        val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
     }
 

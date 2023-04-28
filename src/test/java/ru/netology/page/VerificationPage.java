@@ -1,6 +1,7 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
+import org.jetbrains.annotations.NotNull;
 import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -14,7 +15,7 @@ public class VerificationPage {
         codeField.shouldBe(visible);
     }
 
-    public CardBalance validVerify(DataHelper.VerificationCode verificationCode) {
+    public CardBalance validVerify(DataHelper.@NotNull VerificationCode verificationCode) {
         codeField.setValue(verificationCode.getCode());
         verifyButton.click();
         return new CardBalance();

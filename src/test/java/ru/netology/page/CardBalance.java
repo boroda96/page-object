@@ -34,10 +34,6 @@ public class CardBalance {
         return Integer.parseInt(value);
     }
 
-    public TransactionPage transfer(DataHelper.CardsInfo cardId) {
-        $("[data-test-id='" + cardId.getCardNumber() + "'] [data-test-id=action-deposit]").click();
-        return new TransactionPage();
-    }
 
     public TransactionPage transferClick(int indexCardTo) {
         cards.findBy(attribute("data-test-id", getCard(indexCardTo).getCardID()))
